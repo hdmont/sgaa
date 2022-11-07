@@ -1,5 +1,6 @@
 <?php
   session_start();
+  //session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +36,7 @@
 
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
-        <?php include "vistas/". $_SESSION['usuario']->vista ?>
+        <?php include "vista/". $_SESSION['usuario']->Modulo_Vista ?>
       </div>
       <!-- /.content-wrapper -->
 

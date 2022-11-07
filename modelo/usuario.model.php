@@ -16,24 +16,5 @@ class UsuarioModel{
         $sentencia->bindParam(":password", $password, PDO::PARAM_STR);
         $sentencia->execute();
         return $sentencia->fetchAll(PDO::FETCH_CLASS);
-        if(count($respuesta) > 0){
-            $_SESSION["usuario"] = $respuesta(0);
-            echo '
-                <script>
-                    window.location = "http://localhost/sgaa/"
-                </script>
-            ';
-        }
-        else{
-            echo '
-                <script>
-                    fncSweetAlert(
-                        "error",
-                        "Usuario o contraseña incorrecta",
-                        "http://localhost/sgaa/"
-                    );
-                </script>
-            ';
-        }
     }
 }
