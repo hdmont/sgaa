@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="vista/assets/plugins/fontawesome-free/css/all.min.css">
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="vista\assets\plugins\sweetalert2-theme-bootstrap-4\bootstrap-4.min.css">
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables JS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="vista/assets/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="vista/assets/dist/css/template.css">
@@ -23,6 +31,17 @@
     <script src="vista/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="vista/assets/dist/js/adminlte.min.js"></script>
+    <!-- SweetAlert2 -->
+    <script src="vista\assets\plugins\sweetalert2\sweetalert2.min.js"></script>
+    <!-- JS Bootstrap 5 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+    <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js"></script>        
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <script src="vista/assets/dist/js/plantilla.js"></script>
   </head>
 <?php if(isset($_SESSION["usuario"])): ?>
@@ -30,7 +49,7 @@
     <div class="wrapper">
         
         <?php
-            //include "modules/navbar.php";
+            include "modules/navbar.php";
             include "modules/aside.php";
         ?>
 
