@@ -99,17 +99,95 @@
       </div>
     </div>
   </div>
+
 </div>
 <script>
-  $(document).ready(function()){
-    var tbl_perfiles_asignar;
-    cargarDataTables();
-    function cargarDataTables(){
-      tbl_perfiles_asignar = $('#tbl_perfiles_asignar').DataTable({
-        "language":{
-          "url":"//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+  $(document).ready(function(){
+    var table;
+
+    $('#tbl_perfiles_asignar tbody').on('click', '.btnSeleccionarPerfil', function() {
+      var data = table.row($(this).parents('tr')).data();
+      if ($(this).parents('tr').hasClass('selected')) {
+        $(this).parents('tr').removeClass('selected');
+      }else{
+        table.$('tr.selected').removeClass('selected');
+        $(this).parents('tr').addClass('selected');
+      }
+    })
+    loadDataTables();
+    initTreeModule();
+
+    function loadDataTables(){
+      table = $("#tbl_perfiles_asignar").DataTable({
+        ajax: {
+          async: false,
+          url: 'ajax/perfil.ajax.php',
+          type: 'POST',
+          dataType: 'json',
+          dataSrc: "",
+          data: {
+            accion: 1
+          }
+        },
+        columnDefs: [
+          {
+            targets: 2,
+            sortable: false,
+            createdCell: function(td, cellData, rowData, row, col) {
+              if (parseInt(rowData[2]) == 1){
+                $(td).html("Activo")
+              } else{
+                $(td).html("Inactivo")
+              }
+            }
+          },
+          {
+            targets: 3,
+            sortable: false,
+            render: function(data, type, full, meta){
+              return "<center>" +
+                        "<span class='btnSeleccionarPerfil text-primary px-1' style='cursor:pointer;' data-bs-toggle='tooltip' data-bs-placement='top' title='Seleccionar perfil'>" +
+                        "<i class='fas fa-check fs-5'></i> " +
+                        "</span> " +
+                      "</center>";
+            }
+          }
+        ],
+        language:{
+          url: "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
         }
       });
     }
-  }    
+    function initTreeModule(){
+      $.ajax({
+        async: false,
+        url: 'ajax/modulo.ajax.php',
+        method: 'POST',
+        data: {
+          accion: 1
+        },
+        dataType: 'json',
+        success: function(respuesta) {
+          console.log(respuesta);
+          $('#modulos').jstree({
+            'core': {
+              "check_callback": true,
+              'data': respuesta
+            },
+            "checkbox": {
+              "keep_selected_style": true
+            },
+            "types": {
+              "default": {
+                "icon": "fas fa-user-check text-warning"
+              }
+            },
+            "plugins": ["wholerow", "checkbox", "types", "changed"]
+          }).bind("loaded.jstree", function(event, data){
+            $(this).jstree("open_all");
+          });
+        }
+      })
+    }
+  })
 </script>

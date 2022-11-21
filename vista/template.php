@@ -13,24 +13,29 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="vista/assets/plugins/fontawesome-free/css/all.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="vista\assets\plugins\sweetalert2-theme-bootstrap-4\bootstrap-4.min.css">
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- JSTREE Css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <!-- DataTables JS -->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="vista/assets/dist/css/adminlte.min.css">
+    <!-- Estilo perzonalizado -->
     <link rel="stylesheet" href="vista/assets/dist/css/template.css">
     <!-- REQUIRED SCRIPTS -->
     <!-- jQuery -->
     <script src="vista/assets/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="vista/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="vista/assets/dist/js/adminlte.min.js"></script>
+    <!-- JSTREE JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
     <!-- SweetAlert2 -->
     <script src="vista\assets\plugins\sweetalert2\sweetalert2.min.js"></script>
     <!-- JS Bootstrap 5 -->
@@ -43,6 +48,8 @@
     <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
     <script src="vista/assets/dist/js/plantilla.js"></script>
+    <!-- AdminLTE App -->
+    <script src="vista/assets/dist/js/adminlte.min.js"></script>
   </head>
 <?php if(isset($_SESSION["usuario"])): ?>
   <body class="hold-transition sidebar-mini">
