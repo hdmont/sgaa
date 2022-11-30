@@ -12,6 +12,7 @@
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="info">
         <h6 class="text-warning">Usuario: <?php echo $_SESSION["usuario"]->Usuario_Nombre. ' ' . $_SESSION["usuario"]->Usuario_Apellidos ?></h6>
+        <a href="../controlador/cerrar.php?cerrar=yes">Cerrar</a>
       </div>
     </div>
     <!-- Sidebar Menu -->

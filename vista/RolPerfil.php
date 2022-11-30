@@ -82,7 +82,7 @@
                 <div class="row m-2">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <label>Seleccione el módulo de inicio</label>
+                      <label>Seleccione la página de inicio</label>
                       <select class="custom-select" id="select_modulos"></select>
                     </div>
                   </div>
@@ -103,17 +103,100 @@
 </div>
 <script>
   $(document).ready(function(){
-    var table;
+
+    var table, modules_usuario, modules_sistema;
+    var idPerfil = 0;
+    var selectedElmsIds = [];
 
     $('#tbl_perfiles_asignar tbody').on('click', '.btnSeleccionarPerfil', function() {
       var data = table.row($(this).parents('tr')).data();
       if ($(this).parents('tr').hasClass('selected')) {
         $(this).parents('tr').removeClass('selected');
+        $('#modulos').jstree("deselect_all", false);
+        $("#select_modulos option").remote();
+        idPerfil = 0;
       }else{
         table.$('tr.selected').removeClass('selected');
         $(this).parents('tr').addClass('selected');
+        idPerfil = data[0];
+        $.ajax({
+          async: false,
+          url: "ajax/modulo.ajax.php",
+          method: 'POST',
+          data: {
+            accion: 2,
+            id_perfil: idPerfil
+          },
+          dataType: 'json',
+          success: function(respuesta){
+            //console.log(respuesta);
+            //console.log(idPerfil);
+            modules_usuario = respuesta;
+            seleccionarModulesPerfil(idPerfil);
+          }
+        })
       }
     })
+
+    $("#modulos").on("changed.jstree", function(evt, data){
+      $("#select_modulos option").remove();
+      var selectedElms = $('#modulos').jstree("get_selected", true);
+      $.each(selectedElms, function(){
+        for (let i = 0; i < modules_sistema.length; i++){
+          if (modules_sistema[i]["id"] == this.id && modules_sistema[i]["vista"] ){
+            $('#select_modulos').append($('<option>', {
+              value:  this.id,
+              text: this.text
+            }));
+          }
+        }
+      })
+      if($("#select_modulos").has('option').length <= 0) {
+        $('#select_modulos').append($('<option>', {
+          value: 0,
+          text: "-No hay página de inicio seleccionada-"
+        }));
+      }
+    })
+
+    $("#marcar_modulos").on('click', function() {
+      $('#modulos').jstree('select_all');
+    })
+
+    $("#desmarcar_modulos").on('click', function() {
+      $('#modulos').jstree('deselect_all', false);
+      $("#select_modulos option").remove();
+      $('#select_modulos').append($('<option>', {
+        value: 0,
+        text: "-No hay página de inicio seleccionada-"
+      }));
+    })
+
+    $("#asignar_modulos").on('click', function() {
+      selectedElmsIds = []
+      var selectedElms = $('#modulos').jstree("get_selected", true);
+      $.each(selectedElms, function() {
+        selectedElmsIds.push(this.id);
+        if(this.parent != "#") {
+          selectedElmsIds.push(this.parent);
+        }
+      });
+      let modulosSeleccionados = [...new Set(selectedElmsIds)];
+      let idModulo_inicio = $("#select_modulos").val();
+      //console.log(modulosSeleccionados);
+      if (idPerfil != 0 && modulosSeleccionados.length > 0){
+        registroPerfilModulos(modulosSeleccionados, idPerfil, idModulo_inicio);
+      }else{
+        Swal.fire({
+          position: 'center',
+          icon: 'warning',
+          title: 'Debe seleccionar el perfil y módulos a registrar',
+          showConfirmButton: false,
+          timer: 3000
+        })
+      }
+    })
+
     loadDataTables();
     initTreeModule();
 
@@ -158,6 +241,7 @@
         }
       });
     }
+
     function initTreeModule(){
       $.ajax({
         async: false,
@@ -168,7 +252,8 @@
         },
         dataType: 'json',
         success: function(respuesta) {
-          console.log(respuesta);
+          modules_sistema = respuesta;
+          console.log(modules_sistema);;
           $('#modulos').jstree({
             'core': {
               "check_callback": true,
@@ -186,6 +271,58 @@
           }).bind("loaded.jstree", function(event, data){
             $(this).jstree("open_all");
           });
+        }
+      })
+    }
+
+    function seleccionarModulesPerfil(pin_idPerfil) {
+      $('#modulos').jstree('deselect_all');
+      for (let i = 0; i < modules_sistema.length; i++) {
+        if (modules_sistema[i]["id"] == modules_usuario[i]["Modulo_ID"] && modules_usuario[i]["sel"] == 1) {
+          $("#modulos").jstree("select_node", modules_sistema[i]["id"]);
+        }
+      }
+      if(pin_idPerfil == 1) {
+        $("#modulos").jstree(true).hide_node(5);
+      }else{
+        $('#modulos').jstree(true).show_all();
+      }
+    }
+
+    function registroPerfilModulos(modulosSeleccionados, idPerfil, idModulo_inicio) {
+      $.ajax({
+        async: false,
+        url: "ajax/perfil_modulo.ajax.php",
+        method: 'POST',
+        data: {
+          accion: 1,
+          id_modulosSeleccionados: modulosSeleccionados,
+          id_Perfil: idPerfil,
+          id_modulo_inicio: idModulo_inicio
+        },
+        dataType: 'json',
+        success: function(respuesta) {
+          if(respuesta > 0){
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: 'Se registro correctamente',
+              showConfirmButton: false,
+              timer: 2000
+            })
+            $("#select_modulos option").remove();
+            $('#modulos').jstree("deselect_all", false);
+        //    tbl_perfiles_asignar.ajax.reload();
+         // $(#card-modulos").css("display","none")
+          }else{
+            Swal.fire({
+              position: 'center',
+              icon: 'error',
+              title: 'Error al registrar',
+              showConfirmButton: false,
+              timer: 3000
+            })
+          }
         }
       })
     }
